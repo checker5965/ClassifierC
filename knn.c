@@ -79,24 +79,30 @@ nptr listify(char* filename, int nattr, nptr head)
 void splitdata(nptr* train, nptr* test, int nattr)
 {
 	nptr curr,temp;
-	for(curr=(*train)->next;curr!=NULL;curr=curr->next)
+	for(curr=(*train)->next;curr!=(*train);curr=curr->next)
 	{
 		if(rand()>((0.8)*(RAND_MAX)))
 		{
-			(*test)=insertAtEnd((*test),curr->data,nattr);
-			temp=curr->prev;
-			temp->next=curr->next;
-			if(curr->next!=NULL)
-			{
-				temp=curr->next;
-				temp->prev=curr->prev;
-			}
-			free(curr);
+			(*test)=insertAtEnd((*test),curr->f,nattr);
+			(curr->next)->prev = curr->prev;
+            (curr->prev)->next = curr->next;
+            temp=curr;
+            curr=curr->prev;
+            free(temp);
 		}
 	}
 }
 
 int main(void)
 {
-	FILE 
+	nptr head;
+    head = NULL;
+    char* filename = "test.csv";
+    head = listify(filename, 3, head);
+	display(head, 3);
+	nptr test=NULL;
+	splitdata(&head,&test,3);
+	//display(head,3);
+	printf("\n");
+	display(test,3);
 }
