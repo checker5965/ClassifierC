@@ -2,36 +2,48 @@
 #include <stdlib.h>
 #include <math.h>
 
-double mean(double* , int);
-double SS(double avg, double* data, int n, double* deviation); //sum_of_squares
-double SP(double* dev1, double* dev2, int n); //sum_of_products
+typedef struct node *nptr;
+
+typedef struct node{
+    nptr next;
+    nptr prev;
+    float* f;
+} dll;
+
+nptr listify(char* filename, int nattr, nptr head);
+nptr insertAtEnd(nptr head, float *f, int nattr);
+void display(nptr head, int nattr);
+
+float mean(nptr head, int i);
+float SS(float avg, nptr head, int i, float* deviation); //sum_of_squares
+float SP(float* dev1, float* dev2, int n); //sum_of_products
+
+int NUM;
 
 int main(void)
 {
-  double *x, *y, *dx, *dy;
-  double mean_x, mean_y, ss_x, ss_y, sp, b, a;
-  int i, n;
+  float *dx, *dy;
+  float mean_x, mean_y, ss_x, ss_y, sp, b, a;
+  int i;
 
-  printf("Enter number of data points: ");
-  scanf("%i", &n);
+  nptr head;
+  head = NULL;
+  char* filename = "test.csv";
+  head = listify(filename, 2, head);
+  display(head, 2);
 
-  x = malloc(n*sizeof(double));
-  y = malloc(n*sizeof(double));
-  dx = malloc(n*sizeof(double));
-  dy = malloc(n*sizeof(double));
+  mean_x = mean(head, 0); //2 argument is column
+  mean_y = mean(head, 1);
 
-  printf("Enter x and y:\n");
-  for(i = 0; i < n; ++i) scanf("%lg %lg", &x[i], &y[i]);
-
-  mean_x = mean(x,n);
-  mean_y = mean(y,n);
+  dx = malloc(NUM*sizeof(float));
+  dy = malloc(NUM*sizeof(float));
 
   printf("Mean X: %lg\n", mean_x);
   printf("Mean Y: %lg\n", mean_y);
 
-  ss_x = SS(mean_x, x, n, dx);
-  ss_y = SS(mean_y, y, n, dy);
-  sp = SP(dx, dy, n);
+  ss_x = SS(mean_x, head, 0, dx);
+  ss_y = SS(mean_y, head, 1, dy);
+  sp = SP(dx, dy, NUM);
 
   // y = bX + a
 
@@ -46,39 +58,112 @@ int main(void)
 
 }
 
-double mean(double* a, int n)
+float mean(nptr head, int i)
 {
-  int i;
-  double sum;
-  sum = 0;
-  for(i = 0; i < n; ++i) sum+=a[i];
+  float sum = 0;
+  nptr curr = head;
+  int n = 0;
 
+  do{
+    sum+=curr->f[i];
+    ++n;
+    curr = curr->next;
+  }while(curr != head);
+  NUM = n;
   return (sum/n);
 }
 
-double SS(double avg, double* data, int n, double* deviation)
+float SS(float avg, nptr head, int i, float* deviation)
 {
-  int i;
-  double sum_of_squares;
+  int j = 0;
+  float sum_of_squares;
   sum_of_squares = 0;
+  nptr curr = head;
 
-  for(i = 0; i < n; ++i)
-  {
-    deviation[i] = data[i] - avg;
-    sum_of_squares+=pow(deviation[i], 2);
-  }
+   do{
+      deviation[j] = curr->f[i] - avg;
+      sum_of_squares+=pow(deviation[j], 2);
+      ++j;
+      curr = curr->next;
+    }while(curr != head);
 
   return sum_of_squares;
 }
 
-double SP(double* dev1, double* dev2, int n)
+float SP(float* dev1, float* dev2, int n)
 {
   int i;
-  double sum_of_products;
+  float sum_of_products;
   sum_of_products = 0;
   for(int i = 0; i < n; ++i)
     sum_of_products+= (dev1[i]*dev2[i]);
 
   printf("Sum of Products: %lg\n", sum_of_products);
   return sum_of_products;
+}
+
+nptr listify(char* filename, int nattr, nptr head)
+{
+    int flag = 0;
+    FILE *dataset = fopen(filename, "r");
+    while(1)
+    {
+        int c = 0;
+        float* f = malloc(sizeof(float)*nattr);
+        while(c!=nattr)
+        {
+            fscanf(dataset, "%g%*c", &f[c]);
+            if(feof(dataset))
+                flag = 1;
+            c++;
+        }
+        head = insertAtEnd(head, f, nattr);
+        if(flag)
+            break;
+    }
+    return(head);
+}
+
+nptr insertAtEnd(nptr head, float *f, int nattr)
+{
+    nptr curr = head;
+    nptr p = malloc(sizeof(dll));
+    p->f = malloc(sizeof(float)*nattr);
+    p->f = f;
+    if(curr==NULL)
+    {
+        head = p;
+        p->next = p;
+        p->prev = p;
+        return(head);
+    }
+    else
+    {
+        p->next = curr;
+        p->prev = curr->prev;
+        (curr->prev)->next = p;
+        curr->prev = p;
+        return(head);
+    }
+}
+
+void display(nptr head, int nattr)
+{
+    if(head == NULL)
+    {
+        printf("Empty.\n");
+        return;
+    }
+
+    else
+    {
+      nptr curr = head;
+
+        do
+        {
+          for(int i=0; i<nattr; i++) printf("%g, ", curr->f[i]);
+          printf("\n");
+          curr = curr->next;
+        }while(curr != head);
+    }
 }
