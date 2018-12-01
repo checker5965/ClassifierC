@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+int testsize;
+
 typedef struct node *nptr;
 
 //struct
@@ -76,8 +78,9 @@ nptr listify(char* filename, int nattr, nptr head)
     return(head);
 }
 
-void splitdata(nptr* train, nptr* test, int nattr)             //Need to create test linked list first and initialize to null
+int splitdata(nptr* train, nptr* test, int nattr)             //Need to create test linked list first and initialize to null
 {
+	int count=0;
 	nptr curr,temp;
 	for(curr=(*train);curr!=(*train);curr=curr->next)
 	{
@@ -89,8 +92,10 @@ void splitdata(nptr* train, nptr* test, int nattr)             //Need to create 
             temp=curr;
             curr=curr->prev;
             free(temp);
+            count++;
 		}
 	}
+	return(count);
 }
 
 int main(void)
@@ -101,9 +106,10 @@ int main(void)
     train = listify(filename, 3, train);
 	display(train, 3);
 	nptr test=NULL;
-	splitdata(&train,&test,3);
+	testsize=splitdata(&train,&test,3);
 	printf("\n");
 	display(test,3);
 	printf("\n");
 	display(train,3);
+	printf("\n%d",testsize);
 }
