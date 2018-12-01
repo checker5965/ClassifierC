@@ -76,15 +76,15 @@ nptr listify(char* filename, int nattr, nptr head)
     return(head);
 }
 
-void splitdata(nptr* train, nptr* test, int nattr)
+void splitdata(nptr* train, nptr* test, int nattr)             //Need to create test linked list first and initialize to null
 {
 	nptr curr,temp;
-	for(curr=(*train)->next;curr!=(*train);curr=curr->next)
+	for(curr=(*train);curr!=(*train);curr=curr->next)
 	{
-		if(rand()>((0.8)*(RAND_MAX)))
+		if(rand()>((0.8)*(RAND_MAX)))                          //Exports element from train to test 20% of the times
 		{
-			(*test)=insertAtEnd((*test),curr->f,nattr);
-			(curr->next)->prev = curr->prev;
+			(*test)=insertAtEnd((*test),curr->f,nattr);        //Inserting element to test
+			(curr->next)->prev = curr->prev;                   //DEleting element from train
             (curr->prev)->next = curr->next;
             temp=curr;
             curr=curr->prev;
@@ -95,14 +95,15 @@ void splitdata(nptr* train, nptr* test, int nattr)
 
 int main(void)
 {
-	nptr head;
-    head = NULL;
+	nptr train;
+    train = NULL;
     char* filename = "test.csv";
-    head = listify(filename, 3, head);
-	display(head, 3);
+    train = listify(filename, 3, train);
+	display(train, 3);
 	nptr test=NULL;
-	splitdata(&head,&test,3);
-	//display(head,3);
+	splitdata(&train,&test,3);
 	printf("\n");
 	display(test,3);
+	printf("\n");
+	display(train,3);
 }
