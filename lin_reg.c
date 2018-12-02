@@ -20,20 +20,23 @@ float mean(nptr head, int i, int n);
 float SS(float avg, nptr head, int i, float* deviation); //sum_of_squares
 float SP(float* dev1, float* dev2, int n); //sum_of_products
 
+float MSE(nptr test, float a, float b);
+
+int total_count, test_count, train_count;
 
 int main(void)
 {
   srand(time(NULL));
   float *dx, *dy;
-  float mean_x, mean_y, ss_x, ss_y, sp, b, a;
+  float mean_x, mean_y, ss_x, ss_y, sp, b, a, mean_squared_error;
   int i, n;
 
   nptr train, test;
   train = NULL;
   test = NULL;
   char* filename = "cleanIris.csv";
-  train = listify(filename, 2, train);
-  n = splitdata(&train, &test, 2);
+  train = listify(filename, 5, train);
+  n = splitdata(&train, &test, 5);
   display(train, 2);
   printf("%d\n", n);
 
@@ -56,6 +59,9 @@ int main(void)
   a = mean_y - b*mean_x;
 
   printf("y = %lgX-%lg\n", b, a);
+
+  mean_squared_error = MSE(test, a, b);
+  printf("\nMSE = %lg\n", mean_squared_error);
 
  //printf("(X-Mx)^2 = %lf\n", s_x);
 
@@ -109,7 +115,7 @@ float SP(float* dev1, float* dev2, int n)
 int splitdata(nptr* train, nptr* test, int nattr)
 {
     nptr curr,temp;
-    int count = 0;
+
     for(curr=(*train)->next;curr!=(*train);curr=curr->next)
     {
         if(rand()>((0.8)*(RAND_MAX)))
@@ -120,10 +126,12 @@ int splitdata(nptr* train, nptr* test, int nattr)
             temp=curr;
             curr=curr->prev;
             free(temp);
-            count++;
+            ++test_count;
         }
+      ++total_count;
     }
-    return count;
+    train_count = total_count - test_count;
+    return train_count;
 }
 
 nptr listify(char* filename, int nattr, nptr head)
@@ -190,4 +198,23 @@ void display(nptr head, int nattr)
           curr = curr->next;
         }while(curr != head);
     }
+}
+
+float MSE(nptr test, float a, float b)
+{
+  nptr curr;
+  curr = test;
+  float predicted, diff, MSE;
+  MSE = 0;
+
+  do{
+  predicted = b*curr->f[0] + a;
+  diff = curr->f[1] - predicted;
+  MSE+=pow(diff, 2);
+  curr = curr->next;
+  }while(curr!=test);
+
+  MSE = MSE/test_count;
+
+  return MSE;
 }
