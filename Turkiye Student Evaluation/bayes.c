@@ -193,7 +193,7 @@ int main(void)
     srand ( time(NULL) );
     nptr head;
     head = NULL;
-    char* filename = "cleanIris.csv";
+    char* filename = "gradePredict.csv";
     int nattr, nclass;
     nptr test;
     test = NULL;
