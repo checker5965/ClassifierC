@@ -82,7 +82,7 @@ int splitdata(nptr* train, nptr* test, int nattr)             //Need to create t
 {
 	int count=0;
 	nptr curr,temp;
-	for(curr=(*train);curr!=(*train);curr=curr->next)
+	for(curr=(*train)->next;curr!=(*train);curr=curr->next)
 	{
 		if(rand()>((0.8)*(RAND_MAX)))                          //Exports element from train to test 20% of the times
 		{
@@ -95,21 +95,28 @@ int splitdata(nptr* train, nptr* test, int nattr)             //Need to create t
             count++;
 		}
 	}
-	return(count);
+	return count;
 }
+
+/*nptr* getneighbours(nptr test,nptr train,int nattr)
+{
+
+}*/
 
 int main(void)
 {
 	nptr train;
     train = NULL;
-    char* filename = "test.csv";
+    int testsize;
+    char* filename = "cleaniris.csv";
     train = listify(filename, 3, train);
 	display(train, 3);
 	nptr test=NULL;
 	testsize=splitdata(&train,&test,3);
-	printf("\n");
+    /*nptr* distances[testsize];
+	printf("\n");*/
 	display(test,3);
-	printf("\n");
-	display(train,3);
+	//printf("\n");
+	//display(train,3);
 	printf("\n%d",testsize);
 }
