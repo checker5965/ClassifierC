@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int testsize;
-
 typedef struct node *nptr;
 
 //struct
@@ -78,45 +76,36 @@ nptr listify(char* filename, int nattr, nptr head)
     return(head);
 }
 
-int splitdata(nptr* train, nptr* test, int nattr)             //Need to create test linked list first and initialize to null
+void splitdata(nptr* train, nptr* test, int nattr)
 {
-	int count=0;
 	nptr curr,temp;
-	for(curr=(*train)->next;curr!=(*train);curr=curr->next)
+	for(curr=(*train)->next;curr!=NULL;curr=curr->next)
 	{
-		if(rand()>((0.8)*(RAND_MAX)))                          //Exports element from train to test 20% of the times
+		if(rand()>((0.8)*(RAND_MAX)))
 		{
-			(*test)=insertAtEnd((*test),curr->f,nattr);        //Inserting element to test
-			(curr->next)->prev = curr->prev;                   //DEleting element from train
-            (curr->prev)->next = curr->next;
-            temp=curr;
-            curr=curr->prev;
-            free(temp);
-            count++;
+			(*test)=insertAtEnd((*test),curr->data,nattr);
+			temp=curr->prev;
+			temp->next=curr->next;
+			if(curr->next!=NULL)
+			{
+				temp=curr->next;
+				temp->prev=curr->prev;
+			}
+			free(curr);
 		}
 	}
-	return count;
 }
-
-/*nptr* getneighbours(nptr test,nptr train,int nattr)
-{
-
-}*/
 
 int main(void)
 {
-	nptr train;
-    train = NULL;
-    int testsize;
-    char* filename = "cleaniris.csv";
-    train = listify(filename, 3, train);
-	display(train, 3);
-	nptr test=NULL;
-	testsize=splitdata(&train,&test,3);
-    /*nptr* distances[testsize];
-	printf("\n");*/
+	nptr head;
+    head = NULL;
+    char* filename = "test.csv";
+    head = listify(filename, 3, head);
+	display(head, 3);
+	nptr train,test=NULL;
+	train=head;
+	splitdata(&train,&test,3);
+	display(train,3);
 	display(test,3);
-	//printf("\n");
-	//display(train,3);
-	printf("\n%d",testsize);
 }
