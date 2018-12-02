@@ -1,26 +1,21 @@
 # CS207-Final-Project
 This is the repository of our final project for CS 207. We will be working on several Data Science problems for this.
 
-## Archit Checker | Sachin Bhatia | Shivam Agarwal | Vir Jhangiani
+## Archit Checker | Sachin Bhatia | Shivam Agarwal
 
 # Exploring Data Science
 
 ## OVERVIEW
 
-We plan to use various Python and R libraries such as SciKit Learn, dplyr, data.table, Numpy, and
-Matplotlib to work on a series of popular datasets. The idea is to familiarize ourselves with data
-science libraries and get a feel of working with datasets of various sizes. We shall also use
-various techniques for data cleaning and as an optional part, we aim to scrape some primary data
-and work on it.
+For this project, we wrote a KNN Classifier, a Naive Bayes Classifier, and a Simple Regressor from scratch in C. We used python to pre-process and clean various datasets and performed classification problems on them.
 
 ## GOALS
 
-1. Effectively using SciKit Learn.
+1. Writing our own classifiers in C.
 2. Working with datasets of various sizes.
 3. Understanding data science techniques.
-Optionally, we want to:
-1. Visualize the results
-2. Create a GUI for each of these datasets.
+4. Using python to clean datasets.
+5. Using python libraries to do more challenging data science problems.
 
 ## MILESTONES
 
@@ -32,9 +27,9 @@ This dataset has 150 rows and 4 columns.
 **Problem:​** Predict the class of the flower based on available attributes.
 
 
-**Time Series Analysis Dataset**
+**Pima Indian Diabetes Dataset**
 
-**Problem:​** Predict the traffic on a new mode of transport.
+**Problem:​** Predict if the person is suffering from type-2 Diabetes.
 
 
 **Loan Prediction Dataset**
@@ -46,7 +41,7 @@ This dataset has 615 rows and 13 columns.
 **Turkiye Student Evaluation Dataset**
 This dataset has 5820 rows and 33 columns.
 
-**Problem:​** Use classification and clustering techniques to deal with the data.
+**Problem:​** Predict final grade based on answers to all other questions.
 
 ## INTERMEDIATE LEVEL​:
 
