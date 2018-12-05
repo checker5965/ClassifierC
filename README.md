@@ -64,9 +64,6 @@ This dataset has 2.2 Lakh rows..
 ## ADVANCED LEVEL​:
 
 **Digit Identifier Dataset**
-This dataset has 7,000 images of 28 X 28 size, totaling 31MB.
+This dataset has pixel values for around 50,000 images of 28 X 28 size.
 
-**Problem:​** Identify digits from an image.
-
-
-
+**Problem:​** Identify digits from pixel values.
