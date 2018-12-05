@@ -193,14 +193,11 @@ int main(void)
     srand ( time(NULL) );
     nptr head;
     head = NULL;
-    char* filename = "cleanIris.csv";
-    int nattr, nclass;
+    char* filename = "pid.csv";
+    int nattr = 9; 
+    int nclass = 2;
     nptr test;
     test = NULL;
-    printf("Enter Number of Attributes: ");
-    scanf("%d", &nattr);
-    printf("Enter Number of Classes: ");
-    scanf("%d", &nclass);
     head = listify(filename, nattr, head);
     int testS = splitdata(&head, &test, nattr);
     printf("TEST SIZE: %d\n", testS);

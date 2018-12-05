@@ -3,18 +3,16 @@ import pandas as pd
 data=pd.read_csv('loantrain.csv')
 data = data.dropna(axis=0)
 data = data.drop(['Loan_ID'], axis=1)
-gender = {'Male': 0, 'Female': 1}
-married = {'Yes': 1, 'No': 0}
-dependents = {'0': 0, '1': 1, '2': 2, '3': 3, '3+': 4}
-education = {'Graduate': 1, 'Not Graduate': 0}
-selfemployed = {'No': 0, 'Yes': 1}
-proparea = {'Urban': 2, 'Semiurban': 1, 'Rural': 0}
+dummyCols = ['Gender', 'Married', 'Dependents', 'Education', 'Self_Employed', 'Property_Area']
+data = pd.get_dummies(data, columns = dummyCols)
 status = {'Y': 1, 'N': 0}
-data.Gender = [gender[item] for item in data.Gender]
-data.Married = [married[item] for item in data.Married]
-data.Dependents = [dependents[item] for item in data.Dependents]   
-data.Education = [education[item] for item in data.Education]
-data.Self_Employed = [selfemployed[item] for item in data.Self_Employed]
-data.Property_Area = [proparea[item] for item in data.Property_Area]  
 data.Loan_Status = [status[item] for item in data.Loan_Status]
+i = 0
+cols = data.columns.tolist()
+for col in cols:
+    if col == 'Loan_Status':
+        cols = cols[:i] + cols[i+1:] + [cols[i]]
+        break
+    i+=1
+data = data[cols] 
 data.to_csv("cleanBanker.csv", sep=',', encoding='utf-8', index=False, header=None)

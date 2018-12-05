@@ -194,13 +194,10 @@ int main(void)
     nptr head;
     head = NULL;
     char* filename = "cleanIris.csv";
-    int nattr, nclass;
+    int nattr = 5; 
+    int nclass = 3;
     nptr test;
     test = NULL;
-    printf("Enter Number of Attributes: ");
-    scanf("%d", &nattr);
-    printf("Enter Number of Classes: ");
-    scanf("%d", &nclass);
     head = listify(filename, nattr, head);
     int testS = splitdata(&head, &test, nattr);
     printf("TEST SIZE: %d\n", testS);
