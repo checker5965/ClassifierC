@@ -57,10 +57,10 @@ This dataset has 21,519 rows and 30,438 columns.
 **Problem:​** Classify the documents according to their labels.
 
 
-**Twitter Classification Dataset**
-This dataset has 31,962 tweets.
+**Trip History Dataset**
+This dataset has 2.2 Lakh rows..
 
-**Problem: ​** Identify​ the tweets which are hate tweets and which are not.
+**Problem: ​** Identify the User Type.
 
 ## ADVANCED LEVEL​:
 
