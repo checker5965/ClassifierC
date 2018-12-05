@@ -51,11 +51,10 @@ This dataset has 550,069 rows and 12 columns.
 **Problem:​** Predict purchase amount.
 
 
-**Text Mining Dataset**
-This dataset has 21,519 rows and 30,438 columns.
+**Movie Recommendations Dataset**
+This dataset has 1Million Ratings.
 
-**Problem:​** Classify the documents according to their labels.
-
+**Problem:​** Recommend a movie to the user.
 
 **Trip History Dataset**
 This dataset has 2.2 Lakh rows..
