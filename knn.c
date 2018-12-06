@@ -171,7 +171,7 @@ int predict(dptr head,int k,int c)
         }
         else if(cl[i]==cl[max])
         {
-            if(rand()>((0.8)*(RAND_MAX)))
+            if(rand()>((0.5)*(RAND_MAX)))
             {
                 max=i;
             }
