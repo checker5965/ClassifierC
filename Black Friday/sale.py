@@ -10,7 +10,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 f = open('train.csv', 'rU')
 data=pd.read_csv(f)
 data = data.fillna(0)
-data = data.drop(data.index[50000:])
+data = data.drop(data.index[200000:])
 y = data.Purchase
 features = ['Product_ID', 'Gender', 'Age', 'Occupation', 'City_Category', 'Marital_Status', 'Product_Category_1', 'Product_Category_2', 'Product_Category_3']
 data = data[features]
