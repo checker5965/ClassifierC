@@ -224,7 +224,8 @@ int main(void)
     printf("Enter K: ");
     scanf("%d",&k);
     float accuracy=0;
-	for(int i=0;i<1000;i++)
+	int counter=0;
+    for(int i=0;i<1000;i++)
     {
         int* predictions=malloc(sizeof(int)*testsize);
         predictions=knnclassifier(test,train,atr,k);
@@ -239,6 +240,8 @@ int main(void)
             temp=temp->next;
         }while(temp!=test);
         accuracy+=((float)correct)/testsize;
+        counter++;
+        printf("\rPercentage Completed: %d%%",(counter/10));
     }
-    printf("Accuracy= %g%%\n",(accuracy/10));
+    printf("\nAccuracy= %g%%\n",(accuracy/10));
 }

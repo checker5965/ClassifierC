@@ -134,22 +134,22 @@ nptr listify(char* filename, int nattr, nptr head)
 
 int splitdata(nptr* train, nptr* test, int nattr,float split)             //Need to create test linked list first and initialize to null
 {
-	int count=0;
-	nptr curr,temp;
-	for(curr=(*train)->next;curr!=(*train);curr=curr->next)
-	{
-		if(rand()>((0.8)*(RAND_MAX)))                          //Exports element from train to test 20% of the times
-		{
-			(*test)=insertAtEnd((*test),curr->f,nattr);        //Inserting element to test
-			(curr->next)->prev = curr->prev;                   //DEleting element from train
+    int count=0;
+    nptr curr,temp;
+    for(curr=(*train)->next;curr!=(*train);curr=curr->next)
+    {
+        if(rand()>((0.8)*(RAND_MAX)))                          //Exports element from train to test 20% of the times
+        {
+            (*test)=insertAtEnd((*test),curr->f,nattr);        //Inserting element to test
+            (curr->next)->prev = curr->prev;                   //DEleting element from train
             (curr->prev)->next = curr->next;
             temp=curr;
             curr=curr->prev;
             free(temp);
             count++;
-		}
-	}
-	return count;
+        }
+    }
+    return count;
 }
 
 int predict(dptr head,int k,int c)
@@ -189,9 +189,9 @@ int* knnclassifier(nptr test,nptr train,int nattr,int k)
     nptr temp_test=test,temp_train=train;
     float distance;
     int i=0;
+    int count=0;
     do
     {
-        int count=0;
         dptr distances=NULL;
         do
         {
@@ -204,6 +204,8 @@ int* knnclassifier(nptr test,nptr train,int nattr,int k)
         predictions[i]=predict(distances,k,c);
         temp_test=temp_test->next;
         i++;
+        count++;
+        printf("\rpercentage completed: %d%%",((count*100/testsize)));
         
     }while(temp_test!=test);
     return(predictions);
@@ -211,10 +213,10 @@ int* knnclassifier(nptr test,nptr train,int nattr,int k)
 
 int main(void)
 {
-	srand(time(0));
+    srand(time(0));
     nptr train;
     train = NULL;
-    char* filename = "gradePredicts.csv";
+    char* filename = "gradePredict.csv";
     int atr=33;
     train = listify(filename, atr, train);
     nptr test;
@@ -224,7 +226,7 @@ int main(void)
     printf("Enter K: ");
     scanf("%d",&k);
     float accuracy=0;
-	for(int i=0;i<1000;i++)
+    for(int i=0;i<1;i++)
     {
         int* predictions=malloc(sizeof(int)*testsize);
         predictions=knnclassifier(test,train,atr,k);
@@ -240,5 +242,5 @@ int main(void)
         }while(temp!=test);
         accuracy+=((float)correct)/testsize;
     }
-    printf("Accuracy= %g%%\n",(accuracy/10));
+    printf("\nAccuracy= %g%%\n",(accuracy*100));
 }
