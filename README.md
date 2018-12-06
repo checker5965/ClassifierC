@@ -1,5 +1,5 @@
-# CS207-Final-Project
-This is the repository of our final project for CS 207. We will be working on several Data Science problems for this.
+# ClassifierC
+This is the repository of our final project for CS 207. We will be writing a Naive Bayes Classifier, a KNN Classifier and a Simple Linear Regressor in C and working on several Data Science problems for this.
 
 ## Archit Checker | Sachin Bhatia | Shivam Agarwal
 
